@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดสมาชิก | FitLife Gym</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .profile-card { border: none; border-radius: 20px; overflow: hidden; }
+        /* ปรับสี Header ให้ดูพรีเมียมขึ้น */
+        .profile-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px 20px; }
+        .info-label { color: #6c757d; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .info-value { color: #212529; font-size: 1.1rem; margin-bottom: 25px; font-weight: 500; }
+        .badge-role { font-size: 0.8rem; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .member-id-tag { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 10px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="card profile-card shadow-lg">
+                <div class="profile-header text-center">
+                    <div class="mb-3 animate__animated animate__fadeInDown">
+                        <i class="bi bi-person-circle" style="font-size: 4.5rem;"></i>
+                    </div>
+                    <h2 class="mb-2 fw-bold"><%= user.username %></h2>
+                    <div class="d-inline-block member-id-tag">
+                        รหัสสมาชิก: #<%= user.member_code || user.id %>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4 p-md-5 bg-white">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-envelope-fill me-1"></i> อีเมลติดต่อ</p>
+                            <p class="info-value"><%= user.email %></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-shield-lock-fill me-1"></i> ตำแหน่ง (Role)</p>
+                            <div class="mb-3">
+                                <% 
+                                    let badgeColor = 'bg-info';
+                                    let roleName = user.rrole || user.role || 'member';
+                                    if(roleName === 'admin') badgeColor = 'bg-danger';
+                                    else if(roleName === 'trainer') badgeColor = 'bg-success';
+                                %>
+                                <span class="badge badge-role <%= badgeColor %> text-uppercase">
+                                    <%= roleName %>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <p class="info-label"><i class="bi bi-calendar-check-fill me-1"></i> วันที่เริ่มเป็นสมาชิก</p>
+                            <p class="info-value">
+                                <%= user.createdAt ? new Date(user.createdAt).toLocaleDateString('th-TH', { 
+                                    year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+                                }) + ' น.' : 'ไม่มีข้อมูล' %>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4 opacity-25">
+                    
+                    <div class="d-grid gap-2 d-sm-flex justify-content-center">
+                        <a href="/users/<%= user.id %>/edit" class="btn btn-warning px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="bi bi-pencil-square me-1"></i> แก้ไขข้อมูล
+                        </a>
+                        <a href="/users" class="btn btn-outline-primary px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="bi bi-people me-1"></i> รายชื่อทั้งหมด
+                        </a>
+                        <a href="/" class="btn btn-dark px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="bi bi-house-door me-1"></i> หน้าหลัก
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center mt-4 text-muted small">FitLife Gym Management System &copy; 2026</p>
+            
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

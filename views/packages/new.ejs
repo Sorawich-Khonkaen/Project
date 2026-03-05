@@ -1,0 +1,61 @@
+<%- include('../partials/header') %>
+
+<style>
+    body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; padding: 40px 0; }
+    .custom-card { background: rgba(255, 255, 255, 0.95); border: none; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); overflow: hidden; }
+    .card-head { background: #198754; color: white; padding: 25px; text-align: center; }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card custom-card">
+                <div class="card-head">
+                    <h3 class="mb-0"><i class="bi bi-plus-circle"></i> เพิ่มแพ็กเกจใหม่</h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="/packages" method="POST">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">ชื่อแพ็กเกจ (Package Name) *</label>
+                            <input type="text" class="form-control" name="package_name" required placeholder="เช่น Monthly VIP">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-secondary">ราคา (บาท) *</label>
+                                <input type="number" class="form-control" name="price" min="0" required placeholder="เช่น 1299">
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-secondary">จำนวนคลาส (Sessions) *</label>
+                                <input type="number" class="form-control" name="session_count" min="1" required placeholder="เช่น 10">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">ระยะเวลา (วัน)</label>
+                            <input type="number" class="form-control" name="duration_days" min="1" placeholder="เช่น 30 (เว้นว่างได้)">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">รายละเอียด (Description)</label>
+                            <textarea class="form-control" name="description" rows="3" placeholder="รายละเอียดแพ็กเกจ..."></textarea>
+                        </div>
+
+                        <div class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="isActive" name="is_active" checked>
+                            <label class="form-check-label fw-bold text-success" for="isActive">เปิดใช้งานแพ็กเกจนี้ (Active)</label>
+                        </div>
+
+                        <div class="d-grid gap-3 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm"><i class="bi bi-save me-1"></i> บันทึกข้อมูล</button>
+                            <a href="/packages" class="btn btn-outline-secondary py-2 fw-bold">ยกเลิก</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

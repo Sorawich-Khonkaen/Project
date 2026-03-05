@@ -1,12 +1,12 @@
 const express = require('express');
 const path = require('path');
+const methodOverride = require('method-override'); // 👈 1. เพิ่มตัวนี้เข้ามา! (สำคัญมาก)
 const sequelize = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
-const classRoutes = require('./routes/classRoutes'); // 👈 ของคุณ
-// 1. นำเข้า userController เพื่อใช้ฟังก์ชัน dashboard
+const classRoutes = require('./routes/classRoutes');
+const packageRoutes = require('./routes/packageRoutes');
 const userController = require('./controllers/userController'); 
 
-// นำเข้า Model เพื่อให้ Sequelize รู้จักตาราง
 const User = require('./models/User'); 
 
 const app = express();
@@ -19,6 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method')); // 👈 2. เปิดใช้งานการแปลง _method เพื่อให้ปุ่ม PUT/DELETE ทำงานได้
 
 // 3. Routes
 
@@ -54,6 +55,8 @@ app.get('/', (req, res) => {
                 }
                 .btn-user { background: #ffc107; color: #212529; border: none; }
                 .btn-dash { background: #00d2ff; color: white; border: none; }
+                .btn-class { background: #28a745; color: white; border: none; }
+                .btn-package { background: #dc3545; color: white; border: none; }
                 .btn-custom:hover { 
                     transform: translateY(-5px); 
                     box-shadow: 0 8px 20px rgba(0,0,0,0.4); 
@@ -63,12 +66,14 @@ app.get('/', (req, res) => {
         </head>
         <body>
             <div class="container-card">
-                <h1 style="font-size: 3.5rem; mb-2;">🏋️‍♂️ FitLife Gym</h1>
-                <p style="font-size: 1.3rem; opacity: 0.85; mb-4;">ระบบบริหารจัดการสมาชิกและวิเคราะห์ข้อมูลอัจฉริยะ</p>
+                <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">🏋️‍♂️ FitLife Gym</h1>
+                <p style="font-size: 1.3rem; opacity: 0.85; margin-bottom: 1.5rem;">ระบบบริหารจัดการสมาชิกและวิเคราะห์ข้อมูลอัจฉริยะ</p>
                 <hr style="border-color: rgba(255,255,255,0.2); margin: 2rem 0;">
                 <div>
-                    <a href="/dashboard" class="btn-custom btn-dash">📊 ดูภาพรวม (Dashboard)</a>
-                    <a href="/users" class="btn-custom btn-user">👥 จัดการสมาชิก (Manage Users)</a>
+                    <a href="/dashboard" class="btn-custom btn-dash">📊 ภาพรวม (Dashboard)</a>
+                    <a href="/users" class="btn-custom btn-user">👥 สมาชิก (Users)</a><br>
+                    <a href="/classes" class="btn-custom btn-class">📅 คลาสเรียน (Classes)</a>
+                    <a href="/packages" class="btn-custom btn-package">📦 แพ็กเกจ (Packages)</a>
                 </div>
             </div>
         </body>
@@ -76,9 +81,11 @@ app.get('/', (req, res) => {
     `);
 });
 
-// กำหนด Route สำหรับจัดการผู้ใช้ (CRUD)
+// กำหนด Route หลักให้เป็นระเบียบ (ย้าย packages ลงมารวมตรงนี้)
 app.use('/users', userRoutes); 
 app.use('/classes', classRoutes);
+app.use('/packages', packageRoutes); 
+
 // กำหนด Route สำหรับหน้า Dashboard
 app.get('/dashboard', userController.dashboard);
 

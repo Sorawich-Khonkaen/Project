@@ -1,0 +1,94 @@
+<%- include('../partials/header') %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h2 class="fw-bold text-dark"><i class="bi bi-box-seam text-primary"></i> จัดการแพ็กเกจ (Packages)</h2>
+        </div>
+        <div class="col-auto text-end">
+            <a href="/" class="btn btn-outline-dark me-2"><i class="bi bi-house-door"></i> หน้าหลัก</a>
+            <a href="/packages/new" class="btn btn-success shadow-sm"><i class="bi bi-plus-circle"></i> เพิ่มแพ็กเกจใหม่</a>
+        </div>
+    </div>
+
+    <form class="row mb-4" method="GET" action="/packages">
+        <div class="col-md-6">
+            <div class="input-group shadow-sm">
+                <input type="text" class="form-control border-end-0" name="q" placeholder="ค้นหาชื่อแพ็กเกจ หรือ รายละเอียด..." value="<%= q ?? '' %>">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> ค้นหา</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <th class="py-3">ชื่อแพ็กเกจ</th>
+                        <th class="py-3">ราคา</th>
+                        <th class="py-3">จำนวนคลาส</th>
+                        <th class="py-3">สถานะ</th>
+                        <th class="py-3">การจัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (packages && packages.length > 0) { %>
+                        <% packages.forEach(p => { %>
+                            <tr class="text-center">
+                                <td class="text-start fw-bold text-primary"><%= p.package_name %></td>
+                                <td class="fw-bold">฿ <%= p.price.toLocaleString() %></td>
+                                <td><span class="badge bg-light text-dark border"><%= p.session_count %> ครั้ง</span></td>
+                                <td>
+                                    <% if (p.is_active) { %>
+                                        <span class="badge bg-success">Active</span>
+                                    <% } else { %>
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <div class="btn-group shadow-sm">
+                                        <a href="/packages/<%= p.id %>" class="btn btn-sm btn-primary" title="ดูรายละเอียด"><i class="bi bi-search"></i></a>
+                                        <a href="/packages/<%= p.id %>/edit" class="btn btn-sm btn-warning" title="แก้ไข"><i class="bi bi-pencil"></i></a>
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('<%= p.id %>', '<%= p.package_name %>')" title="ลบ"><i class="bi bi-trash"></i></button>
+                                        
+                                        <form id="delete-form-<%= p.id %>" action="/packages/<%= p.id %>?_method=DELETE" method="POST" style="display: none;"></form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-1 d-block mb-2"></i> ไม่มีข้อมูลแพ็กเกจ
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete(id, name) {
+    Swal.fire({
+        title: 'ยืนยันการลบแพ็กเกจ?',
+        text: `คุณกำลังจะลบ "${name}" ข้อมูลนี้ไม่สามารถกู้คืนได้!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'ใช่, ลบเลย!',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('delete-form-' + id).submit();
+        }
+    });
+}
+</script>
+
+<%- include('../partials/footer') %>

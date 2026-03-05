@@ -2,6 +2,7 @@
 const sequelize = require('./config/database');
 const seedUsers = require('./seeders/userSeeder');
 const seedClasses = require('./seeders/classSeeder');
+const seedPackages = require('./seeders/packageSeeder');
 const User = require('./models/User'); // มั่นใจว่า Import Model มาแล้ว
 
 const runSeeder = async () => {
@@ -16,7 +17,8 @@ const runSeeder = async () => {
 
         await seedUsers();
         await seedClasses();
-        
+        await seedPackages();
+
         console.log('--- Seeding Process Completed ---');
         process.exit(0);
     } catch (error) {

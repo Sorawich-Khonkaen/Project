@@ -1,0 +1,81 @@
+<%- include('../partials/header') %>
+
+<style>
+    body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .detail-card { border: none; border-radius: 20px; overflow: hidden; }
+    .card-head { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 30px 20px; text-align: center; }
+    .info-label { color: #6c757d; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
+    .info-value { color: #212529; font-size: 1.15rem; margin-bottom: 20px; font-weight: 500; }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card detail-card shadow-lg mb-5">
+                <div class="card-head">
+                    <h2 class="fw-bold mb-2"><i class="bi bi-box"></i> ข้อมูลแพ็กเกจ</h2>
+                    <p class="mb-0 opacity-75">ID: <%= pkg.id %></p>
+                </div>
+                
+                <div class="card-body p-5 bg-white">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="info-label">ชื่อแพ็กเกจ</p>
+                            <p class="info-value text-primary fw-bold"><%= pkg.package_name %></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="info-label">สถานะ (Status)</p>
+                            <p class="info-value">
+                                <% if (pkg.is_active) { %>
+                                    <span class="badge bg-success">Active (พร้อมใช้งาน)</span>
+                                <% } else { %>
+                                    <span class="badge bg-secondary">Inactive (ปิดการขาย)</span>
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="info-label">ราคา</p>
+                            <p class="info-value text-danger fw-bold fs-4">฿ <%= pkg.price.toLocaleString() %></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="info-label">จำนวนคลาสเรียน</p>
+                            <p class="info-value"><%= pkg.session_count %> ครั้ง</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="info-label">ระยะเวลา</p>
+                            <p class="info-value"><%= pkg.duration_days ? pkg.duration_days + ' วัน' : 'ไม่จำกัดเวลา' %></p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <p class="info-label">รายละเอียดเพิ่มเติม</p>
+                            <p class="info-value p-3 bg-light rounded-3 border border-light">
+                                <%= pkg.description ? pkg.description : 'ไม่มีรายละเอียด' %>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4 opacity-25">
+                    
+                    <div class="d-grid gap-2 d-sm-flex justify-content-center">
+                        <a href="/packages/<%= pkg.id %>/edit" class="btn btn-warning px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="bi bi-pencil-square me-1"></i> แก้ไข
+                        </a>
+                        <a href="/packages" class="btn btn-outline-primary px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="bi bi-list-ul me-1"></i> กลับหน้ารายการ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

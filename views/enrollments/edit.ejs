@@ -1,0 +1,49 @@
+<h2>Edit Enrollment</h2>
+
+<form action="/enrollments/<%=enrollment.id%>?_method=PUT" method="POST">
+
+<select name="userId">
+
+<% users.forEach(u=>{ %>
+
+<option value="<%=u.id%>"
+<%= enrollment.userId==u.id ? "selected":"" %>>
+
+<%=u.username%>
+
+</option>
+
+<% }) %>
+
+</select>
+
+<select name="classId">
+
+<% classes.forEach(c=>{ %>
+
+<option value="<%=c.id%>"
+<%= enrollment.classId==c.id ? "selected":"" %>>
+
+<%=c.className%>
+
+</option>
+
+<% }) %>
+
+</select>
+
+<select name="status">
+
+<option value="active" <%= enrollment.status=="active"?"selected":""%>>
+active
+</option>
+
+<option value="cancelled" <%= enrollment.status=="cancelled"?"selected":""%>>
+cancelled
+</option>
+
+</select>
+
+<button type="submit">Update</button>
+
+</form>

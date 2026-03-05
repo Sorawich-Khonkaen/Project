@@ -1,0 +1,33 @@
+<h2>Create Enrollment</h2>
+
+<form action="/enrollments" method="POST">
+
+<div>
+<label>Member</label>
+<select name="userId">
+<% users.forEach(u=>{ %>
+<option value="<%=u.id%>"><%=u.username%></option>
+<% }) %>
+</select>
+</div>
+
+<div>
+<label>Class</label>
+<select name="classId">
+<% classes.forEach(c=>{ %>
+<option value="<%=c.id%>"><%=c.className%></option>
+<% }) %>
+</select>
+</div>
+
+<div>
+<label>Status</label>
+<select name="status">
+<option value="active">active</option>
+<option value="cancelled">cancelled</option>
+</select>
+</div>
+
+<button type="submit">Create</button>
+
+</form>

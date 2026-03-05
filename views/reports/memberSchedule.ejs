@@ -1,0 +1,31 @@
+<h2>Member Schedule</h2>
+
+<form method="GET">
+<select name="userId">
+<option value="">Select Member</option>
+
+<% members.forEach(m => { %>
+<option value="<%= m.id %>"><%= m.username %></option>
+<% }) %>
+
+</select>
+
+<button type="submit">Search</button>
+</form>
+
+<table border="1">
+<tr>
+<th>Class</th>
+<th>Schedule</th>
+<th>Status</th>
+</tr>
+
+<% enrollments.forEach(e => { %>
+<tr>
+<td><%= e.Class.className %></td>
+<td><%= e.Class.scheduleTime %></td>
+<td><%= e.status %></td>
+</tr>
+<% }) %>
+
+</table>

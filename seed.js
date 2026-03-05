@@ -1,6 +1,7 @@
 // seed.js
 const sequelize = require('./config/database');
 const seedUsers = require('./seeders/userSeeder');
+const seedClasses = require('./seeders/classSeeder');
 const User = require('./models/User'); // มั่นใจว่า Import Model มาแล้ว
 
 const runSeeder = async () => {
@@ -14,7 +15,8 @@ const runSeeder = async () => {
         console.log('Database tables created successfully.');
 
         await seedUsers();
-
+        await seedClasses();
+        
         console.log('--- Seeding Process Completed ---');
         process.exit(0);
     } catch (error) {

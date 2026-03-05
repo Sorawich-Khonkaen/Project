@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const sequelize = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
+const classRoutes = require('./routes/classRoutes'); // 👈 ของคุณ
 // 1. นำเข้า userController เพื่อใช้ฟังก์ชัน dashboard
 const userController = require('./controllers/userController'); 
 
@@ -77,7 +78,7 @@ app.get('/', (req, res) => {
 
 // กำหนด Route สำหรับจัดการผู้ใช้ (CRUD)
 app.use('/users', userRoutes); 
-
+app.use('/classes', classRoutes);
 // กำหนด Route สำหรับหน้า Dashboard
 app.get('/dashboard', userController.dashboard);
 

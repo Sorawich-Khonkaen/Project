@@ -1,0 +1,92 @@
+<%- include('../partials/header') %>
+
+<style>
+    body { 
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    .class-card {
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+    .class-header {
+        background: #212529; /* สีเข้มสำหรับโหมดแก้ไข */
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card class-card">
+                <div class="class-header">
+                    <h3 class="mb-0"><i class="bi bi-pencil-square"></i> แก้ไขข้อมูล: <%= classItem.className %></h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="/classes/<%= classItem.id %>?_method=PUT" method="POST">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">ชื่อคลาส (Class Name) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-tag"></i></span>
+                                <input type="text" class="form-control" name="className" value="<%= classItem.className %>" maxlength="200" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">เวลาเรียน (Schedule Time) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-clock"></i></span>
+                                <input type="text" class="form-control" name="scheduleTime" value="<%= classItem.scheduleTime %>" maxlength="100" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">จำนวนที่รับได้ (Capacity) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-people"></i></span>
+                                <input type="number" class="form-control" name="capacity" value="<%= classItem.capacity %>" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">เทรนเนอร์ผู้สอน (Trainer) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-person-badge"></i></span>
+                                <select class="form-select" name="trainerId" required>
+                                    <% trainers.forEach(t => { %>
+                                        <option value="<%= t.id %>" <%= classItem.trainerId === t.id ? 'selected' : '' %>>
+                                            <%= t.username %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">รายละเอียดคลาส (Description)</label>
+                            <textarea class="form-control" name="description" rows="3"><%= classItem.description %></textarea>
+                        </div>
+
+                        <div class="d-grid gap-3 mt-5">
+                            <button type="submit" class="btn btn-warning btn-lg shadow-sm fw-bold">
+                                <i class="bi bi-check-circle me-1"></i> อัปเดตข้อมูล
+                            </button>
+                            <a href="/classes" class="btn btn-outline-secondary fw-bold py-2">
+                                ยกเลิกและกลับ
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

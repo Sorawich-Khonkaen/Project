@@ -1,0 +1,87 @@
+<%- include('../partials/header') %>
+
+<style>
+    body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .class-detail-card { border: none; border-radius: 20px; overflow: hidden; }
+    .class-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 30px 20px; }
+    .info-label { color: #6c757d; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
+    .info-value { color: #212529; font-size: 1.15rem; margin-bottom: 20px; font-weight: 500; }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card class-detail-card shadow-lg mb-5">
+                <div class="class-header text-center">
+                    <h2 class="fw-bold mb-2"><i class="bi bi-info-circle"></i> ข้อมูลคลาสเรียน</h2>
+                    <p class="mb-0 opacity-75">รายละเอียดของคลาสออกกำลังกาย</p>
+                </div>
+                
+                <div class="card-body p-5 bg-white">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-hash"></i> รหัสคลาส</p>
+                            <p class="info-value"><span class="badge bg-secondary">CLASS-<%= classItem.id %></span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-tag"></i> ชื่อคลาส</p>
+                            <p class="info-value text-primary fw-bold"><%= classItem.className %></p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-clock"></i> เวลาเรียน</p>
+                            <p class="info-value"><%= classItem.scheduleTime %></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-people"></i> จำนวนที่รับได้</p>
+                            <p class="info-value"><%= classItem.capacity %> คน</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-person-badge"></i> เทรนเนอร์ผู้สอน</p>
+                            <p class="info-value">
+                                <% if (classItem.trainer) { %>
+                                    <span class="badge bg-success py-2 px-3"><i class="bi bi-person-fill"></i> <%= classItem.trainer.username %></span>
+                                <% } else { %>
+                                    <span class="text-muted">ยังไม่มีการระบุเทรนเนอร์</span>
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="info-label"><i class="bi bi-calendar-plus"></i> สร้างเมื่อ</p>
+                            <p class="info-value fs-6 text-muted">
+                                <%= new Date(classItem.createdAt).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <p class="info-label"><i class="bi bi-card-text"></i> รายละเอียดคลาส</p>
+                            <p class="info-value p-3 bg-light rounded-3 border border-light">
+                                <%= classItem.description ? classItem.description : 'ไม่มีรายละเอียดเพิ่มเติม' %>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4 opacity-25">
+                    
+                    <div class="d-grid gap-2 d-sm-flex justify-content-center">
+                        <a href="/classes/<%= classItem.id %>/edit" class="btn btn-warning px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="bi bi-pencil-square me-1"></i> แก้ไขข้อมูล
+                        </a>
+                        <a href="/classes" class="btn btn-outline-primary px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="bi bi-list-ul me-1"></i> กลับหน้ารายการ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

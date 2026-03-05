@@ -1,0 +1,95 @@
+<%- include('../partials/header') %>
+
+<style>
+    body { 
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    .class-card {
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+    .class-header {
+        background: #198754; /* สีเขียวแสดงถึงการสร้างใหม่ */
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card class-card">
+                <div class="class-header">
+                    <h3 class="mb-0"><i class="bi bi-plus-circle"></i> เพิ่มคลาสออกกำลังกายใหม่</h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="/classes" method="POST">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">ชื่อคลาส (Class Name) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-tag"></i></span>
+                                <input type="text" class="form-control" name="className" maxlength="200" required placeholder="เช่น Yoga Basics, HIIT Cardio">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">เวลาเรียน (Schedule Time) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-clock"></i></span>
+                                <input type="text" class="form-control" name="scheduleTime" maxlength="100" required placeholder="เช่น จันทร์ 18:00 - 19:00">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">จำนวนที่รับได้ (Capacity) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-people"></i></span>
+                                <input type="number" class="form-control" name="capacity" min="1" max="100" required value="20">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">เทรนเนอร์ผู้สอน (Trainer) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-person-badge"></i></span>
+                                <select class="form-select" name="trainerId" required>
+                                    <option value="" disabled selected>-- โปรดเลือกเทรนเนอร์ --</option>
+                                    <% if (trainers && trainers.length > 0) { %>
+                                        <% trainers.forEach(t => { %>
+                                            <option value="<%= t.id %>"><%= t.username %></option>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <option value="" disabled>ไม่พบรายชื่อเทรนเนอร์ในระบบ</option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">รายละเอียดคลาส (Description)</label>
+                            <textarea class="form-control" name="description" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
+                        </div>
+
+                        <div class="d-grid gap-3 mt-5">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                                <i class="bi bi-save me-1"></i> บันทึกข้อมูลคลาส
+                            </button>
+                            <a href="/classes" class="btn btn-outline-secondary fw-bold py-2">
+                                ยกเลิก
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
